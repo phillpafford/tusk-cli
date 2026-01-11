@@ -4,6 +4,10 @@
   "description": "Automate the synchronization of sanitized PostgreSQL schemas and seed data from remote sources into high-fidelity local Docker development environments.",
   "type": "module",
   "main": "bin/tusk.js",
+  "exports": {
+    ".": "./bin/tusk.js",
+    "./package.json": "./package.json"
+  },
   "bin": {
     "tusk": "./bin/tusk.js"
   },
@@ -12,7 +16,8 @@
     "src/",
     "templates/",
     "infrastructure/",
-    "README.md"
+    "README.md",
+    "!**/.gitkeep"
   ],
   "engines": {
     "node": ">=20.0.0"
@@ -50,6 +55,7 @@
     "test": "node --test",
     "smoke": "TUSK_CONTRIBUTE=true node bin/tusk.js ops:env:test",
     "lint": "eslint src bin",
-    "format": "prettier --write src bin"
+    "format": "prettier --write src bin",
+    "prepublishOnly": "npm run lint && npm test"
   }
 }
