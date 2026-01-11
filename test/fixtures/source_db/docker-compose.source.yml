@@ -1,0 +1,10 @@
+version: '3.8'
+services:
+  mock_remote_db:
+    image: postgres:16
+    environment:
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - .:/docker-entrypoint-initdb.d
+    ports:
+      - "5433:5432"
