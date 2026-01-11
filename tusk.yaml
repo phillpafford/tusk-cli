@@ -1,0 +1,26 @@
+# Tusk CLI Configuration (v2.0 Schema)
+# This default configuration targets the 'postgres-remote-local-demo' project.
+# See: https://github.com/phillpafford/postgres-remote-local-demo
+
+# Global Dependency Versions
+dependency_versions:
+  prisma: "5.13.0"
+  mermaid: "10.9.0"
+
+# Faker Configuration Map
+faker_configs:
+  authors_faker_config: "./templates/faker/authors.yaml"
+
+databases:
+  - source_name: "remote_example"         # The source DB (Port 5433 in demo)
+    local_target_name: "local_db"         # The local Docker DB (Port 5432)
+    host: "fake-remote-db.local:5433"
+    username: "remote_user"
+    sslmode: "disable"
+    seed_tables:
+      - table: "bookstore_ops.authors"
+        method: "faker"
+        faker_config_ref: "authors_faker_config"
+        rows: 50
+      - table: "bookstore_ops.books"
+        method: "dump"

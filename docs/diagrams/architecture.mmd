@@ -1,0 +1,10 @@
+graph LR
+  subgraph RemoteSources["Remote PostgreSQL Sources"]
+    remote_example["remote_example<br/>(fake-remote-db.local:5433)"]
+  end
+
+  subgraph LocalEnvironment["Local Docker Environment"]
+    local_db["Target DB: local_db"]
+  end
+
+  remote_example -- "Tusk Sync" --> local_db

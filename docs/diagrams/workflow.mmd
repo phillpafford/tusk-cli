@@ -1,0 +1,29 @@
+graph TD
+  subgraph Discovery["1. Discovery & Extraction"]
+    A[tusk.yaml] --> B["generate:db:ddl"]
+    B --> C["pg_dump (Remote)"]
+    C --> D[Sanitizer]
+    D --> E["infrastructure/volume-mounts/ddl/200__*.sql"]
+  end
+
+  subgraph Seeding["2. Data Generation"]
+    F["generate:db:seed"] --> G{Strategies}
+    G --> G1[Dump - 400]
+    G --> G2[Query - 600]
+    G --> G3[CSV - 600]
+    G --> G4[Faker - 800]
+    G1 & G2 & G3 & G4 --> H["infrastructure/volume-mounts/ddl/*.sql"]
+  end
+
+  subgraph Boot["3. Local Environment Boot"]
+    I["docker-compose up"] --> J["Mount /docker-entrypoint-initdb.d"]
+    J --> K["scripts/001_run_all.sh"]
+    K --> L["psql (Local Container DB)"]
+    E & H --> K
+  end
+
+  subgraph Ops["4. Operational Lifecycle"]
+    M["bundle:deploy:plan"] --> N["prisma migrate diff"]
+    N --> O["artifacts/deploy_*.sql"]
+    P["ops:db:sync"] --> L
+end

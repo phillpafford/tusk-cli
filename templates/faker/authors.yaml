@@ -1,0 +1,8 @@
+columns:
+  # Auto-generated scaffold for bookstore_ops.authors
+  # Edit these to match your schema!
+  # Reference: https://fakerjs.dev/api/
+  id: number.int
+  name: person.fullName
+  email: internet.email
+  created_at: date.past
